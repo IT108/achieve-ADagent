@@ -4,7 +4,7 @@ docker-build-master:
   image: "mcr.microsoft.com/windows/servercore:ltsc2019"
   stage: build
   services:
-    - docker:dind
+    - docker-windows
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:

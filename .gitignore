@@ -1,0 +1,6 @@
+.env
+tunnel/
+bin
+obj
+.idea
+achieve-ADagent.csproj.user

@@ -11,7 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-     - uses: Paramonod/achieve-ADagent
      - name: Publish to dockerhub
        uses: zenato/docker-action@master
        with:

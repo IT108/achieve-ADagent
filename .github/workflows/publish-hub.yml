@@ -11,11 +11,11 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Publish to Registry
-      uses: Paramonod/achieve-ADagent@master
-      with:
-        name: iorp/achieve-adagent
+     - uses: Paramonod/achieve-ADagent
+     - name: Publish to dockerhub
+       uses: zenato/docker-action@master
+       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: Dockerfile 
+        repository: iorp/achieve-adagent
+        tag: latest

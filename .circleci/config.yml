@@ -11,5 +11,5 @@
 
       # build and push Docker image
       - run: |
-          docker build -t iorp/achieve-adagent:latest .
+          docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
   

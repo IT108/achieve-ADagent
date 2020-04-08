@@ -11,6 +11,5 @@
 
       # build and push Docker image
       - run: |
-          TAG=latest
-          docker build -t iorp/achieve-adagent:$TAG .
+          docker build -t iorp/achieve-adagent:latest .
   

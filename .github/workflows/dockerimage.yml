@@ -19,5 +19,5 @@ jobs:
     - name: Publish on dockerhub
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} ${{ secrets.DOCKER_HOST }}
-        docker docker push iorp/achieve-adagent:1809
+        docker push iorp/achieve-adagent:1809
       

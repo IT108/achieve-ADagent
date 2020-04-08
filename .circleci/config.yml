@@ -11,15 +11,14 @@
 
       # build and push Docker image
       -run : |
-        $login=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_LOGIN))
+          $login=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_LOGIN))
       - run: |
-        $password=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_PASSWORD))
+          $password=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_PASSWORD))
       - run: |
-        $host=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_HOST))
+          $host=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_HOST))
       - run: |
-        docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
+          docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
       - run: |
-        docker login --username $login --password $password $host
+          docker login --username $login --password $password $host
       - run: |
-        docker push iorp/achieve-adagent:1903
-  
+          docker push iorp/achieve-adagent:1809  

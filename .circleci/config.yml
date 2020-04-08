@@ -15,10 +15,10 @@
       - run: |
           $password=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_PASSWORD))
       - run: |
-          $host=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_HOST))
+          $dhost=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_HOST))
       - run: |
           docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
       - run: |
-          docker login --username $login --password $password $host
+          docker login --username $login --password $password $dhost
       - run: |
           docker push iorp/achieve-adagent:1809  

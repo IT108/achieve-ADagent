@@ -11,5 +11,5 @@
 
       # build and push Docker image
       - run: |
-          docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
+          docker-build.bat 1809 1809
   

@@ -1,9 +1,17 @@
  version: 2.1
 
- orbs:
-  win: circleci/windows@2.2.0
-
 jobs:
   build:
-    docker:
-      - image: achieve-ADagent
+  docker:
+      - image: mcr.microsoft.com/windows/servercore:1909
+    steps:
+      - checkout
+      # ... steps for building/testing app ...
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      # build and push Docker image
+      - run: |
+          TAG=latest
+          docker build -t iorp/achieve-adagent:$TAG .

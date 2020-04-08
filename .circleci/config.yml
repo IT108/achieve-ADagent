@@ -10,7 +10,7 @@
       # ... steps for building/testing app ...
 
       # build and push Docker image
-      -run : |
+      - run : |
           $login=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_LOGIN))
       - run: |
           $password=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_PASSWORD))

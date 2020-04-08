@@ -10,8 +10,16 @@
       # ... steps for building/testing app ...
 
       # build and push Docker image
+      -run : |
+        $login=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_LOGIN))
       - run: |
-          .\docker-build.ps1 -dockerfileName Dockerfile1809 -TAG 1809
+        $password=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_PASSWORD))
       - run: |
-          docker login --username $DOCKER_LOGIN --password $DOCKER_PASSWORD $DOCKER_HOST
+        $host=[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String($DOCKER_HOST))
+      - run: |
+        docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
+      - run: |
+        docker login --username $login --password $password $host
+      - run: |
+        docker push iorp/achieve-adagent:1903
   

@@ -35,11 +35,6 @@ namespace achieve_ADagent.Models
 
 		}
 
-		public ADUserModel(LdapEntry user)
-		{
-
-		}
-
 		[Required]
 		[JsonRequired]
 		[JsonProperty("username")]

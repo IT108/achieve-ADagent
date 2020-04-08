@@ -4,3 +4,5 @@ bin
 obj
 .idea
 achieve-ADagent.csproj.user
+.config
+Properties

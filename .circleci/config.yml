@@ -12,4 +12,6 @@
       # build and push Docker image
       - run: |
           .\docker-build.ps1 -dockerfileName Dockerfile1809 -TAG 1809
+      - run: |
+          docker login --username $DOCKER_LOGIN --password $DOCKER_PASSWORD $DOCKER_HOST
   

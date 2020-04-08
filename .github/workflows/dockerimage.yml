@@ -15,4 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile1809 --tag iorp/${{ GITHUB_REPOSITORY }}:1809
+      run: docker build . --file Dockerfile1809 --tag iorp/achieve-adagent:1809
+    - name: Publish on dockerhub
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} ${{ secrets.DOCKER_HOST }}
+        docker docker push iorp/achieve-adagent:1809
+      

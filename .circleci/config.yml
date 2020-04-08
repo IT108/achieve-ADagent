@@ -1,0 +1,15 @@
+ version: 2.1
+ orbs:
+  win: circleci/windows@2.2.0
+ jobs:
+  build:
+    executor:
+      name: win/default
+    steps:
+      - checkout
+      # ... steps for building/testing app ...
+
+      # build and push Docker image
+      - run: |
+          docker build -f Dockerfile1809 -t iorp/achieve-adagent:1809 .
+  

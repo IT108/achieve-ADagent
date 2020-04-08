@@ -11,5 +11,5 @@
 
       # build and push Docker image
       - run: |
-          docker-build.bat 1809 1809
+          docker-build.ps1 -dockerfileName Dockerfile1809 -TAG 1809
   

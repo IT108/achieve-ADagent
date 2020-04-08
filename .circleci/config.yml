@@ -3,6 +3,8 @@
   win: circleci/windows@2.2.0
  jobs:
   build:
+    executor:
+      name: win/default
     docker:
       - image: mcr.microsoft.com/windows/servercore:1909
     steps:
@@ -13,3 +15,4 @@
       - run: |
           TAG=latest
           docker build -t iorp/achieve-adagent:$TAG .
+  

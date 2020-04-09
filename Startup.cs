@@ -19,8 +19,11 @@ namespace achieve_ADagent
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			AD.Manage.ConfigureDomain(Configuration);
+			Auth.ConfigureAuth(Configuration);
+			Hubs.Edge.ConfigureEdge(Configuration);
+
 			services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
-			ConfigureAD();
 			services.Configure<IISServerOptions>(options =>
 			{
 				options.AutomaticAuthentication = false;
@@ -45,21 +48,6 @@ namespace achieve_ADagent
 			{
 				endpoints.MapControllers();
 			});
-		}
-
-		private void ConfigureAD()
-		{
-			AD.Manage.DOMAIN = Configuration["DOMAIN_NAME"];
-			AD.Manage.ADMIN_PASSWORD = Configuration["ADMIN_PASSWORD"];
-			AD.Manage.ADMIN_USERNAME = Configuration["ADMIN_USERNAME"];
-			AD.Manage.DOMAIN_PATH = Configuration["DOMAIN_PATH"];
-			Auth.KEY = Configuration["AUTH_KEY"];
-			Auth.MASTER_KEY = Configuration["MASTER_KEY"];
-			if (AD.Manage.DOMAIN == "None" || AD.Manage.ADMIN_PASSWORD == "None" ||
-				AD.Manage.ADMIN_USERNAME == "None" || AD.Manage.DOMAIN_PATH == "None")
-			{
-				throw new NotImplementedException("Domain settings not defined");
-			}
 		}
 	}
 }

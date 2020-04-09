@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,14 @@ namespace achieve_ADagent
 	{
 		private static string key = null;
 		private static string masterKey = null;
+		private const string AUTH_KEY_PROPERTY_NAME = "AUTH_KEY";
+		private const string MASTER_KEY_PROPERTY_NAME = "MASTER_KEY";
+
+		public static void ConfigureAuth(IConfiguration config)
+		{
+			KEY = config[AUTH_KEY_PROPERTY_NAME];
+			MASTER_KEY = config[MASTER_KEY_PROPERTY_NAME];
+		}
 
 		public static string KEY
 		{
@@ -16,6 +25,8 @@ namespace achieve_ADagent
 				return key;
 			}
 			set {
+				if (value is null)
+					throw new NotImplementedException("Auth key not defined");
 				if (!(key is null))
 					throw new MemberAccessException("Double key declaration");
 				key = value;
@@ -28,6 +39,8 @@ namespace achieve_ADagent
 				return masterKey;
 			}
 			set {
+				if (value is null)
+					throw new NotImplementedException("Master key not defined");
 				if (!(masterKey is null))
 					throw new MemberAccessException("Double key declaration");
 				masterKey = value;

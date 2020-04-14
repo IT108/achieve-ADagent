@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,7 +62,24 @@ namespace achieve_ADagent.Hubs
 			{
 				await Task.Delay(new Random().Next(0, 5) * 1000);
 				await connection.StartAsync();
+				await connection.InvokeAsync("Register", Auth.KEY, AD.Manage.DOMAIN);
 			};
+
+			connection.Reconnecting += error =>
+			{
+				Debug.Assert(connection.State == HubConnectionState.Reconnecting);
+
+
+				return Task.CompletedTask;
+			};
+
+			connection.Reconnected += async(connectionId) =>
+			{
+				Debug.Assert(connection.State == HubConnectionState.Connected);
+
+				await connection.InvokeAsync("Register", Auth.KEY, AD.Manage.DOMAIN);
+			};
+
 			connection.On<EdgeResponse>("RegisterResponse", new Action<EdgeResponse>(OnRegister));
 		}
 

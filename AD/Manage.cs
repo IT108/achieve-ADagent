@@ -8,13 +8,15 @@ namespace achieve_ADagent.AD
 {
 	public static class Manage
 	{
-		public static string ADMIN_USERNAME_PROPERTY = "ADMIN_USERNAME";
-		public static string ADMIN_PASSWORD_PROPERTY = "ADMIN_PASSWORD";
-		public static string DOMAIN_PROPERTY = "DOMAIN_NAME";
-		public static string DOMAIN_PATH_PROPERTY = "DOMAIN_PATH";
+		private static string ADMIN_USERNAME_PROPERTY = "ADMIN_USERNAME";
+		private static string ADMIN_PASSWORD_PROPERTY = "ADMIN_PASSWORD";
+		private static string DOMAIN_PROPERTY = "DOMAIN_NAME";
+		private static string DOMAIN_PATH_PROPERTY = "DOMAIN_PATH";
+		private static string DOMAIN_SERVER_PROPERTY = "SERVER_ADDRESS";
 
 		private static string adminUsername = null;
 		private static string adminPassword = null;
+		private static string serverAddress = null;
 		private static string domain = null;
 		private static string domainPath = null;
 
@@ -55,6 +57,16 @@ namespace achieve_ADagent.AD
 			}
 		}
 
+		public static string DOMAIN_SERVER_ADDRESS
+		{
+			get {
+				return serverAddress;
+			}
+			set {
+				setValue(ref serverAddress, value);
+			}
+		}
+
 		private static IConfiguration configuration;
 
 		public static void ConfigureDomain(IConfiguration config)
@@ -64,6 +76,7 @@ namespace achieve_ADagent.AD
 			ADMIN_PASSWORD = ADMIN_PASSWORD_PROPERTY;
 			DOMAIN = DOMAIN_PROPERTY;
 			DOMAIN_PATH = DOMAIN_PATH_PROPERTY;
+			DOMAIN_SERVER_ADDRESS = DOMAIN_SERVER_PROPERTY;
 		}
 
 		private static void setValue(ref string dest, string valueName)

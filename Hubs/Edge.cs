@@ -1,13 +1,13 @@
-﻿using achieve_ADagent.Models;
+﻿using achieve_ADagent.AD;
+using achieve_lib.AD;
+using achieve_lib;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace achieve_ADagent.Hubs
@@ -40,7 +40,8 @@ namespace achieve_ADagent.Hubs
 			connection = new HubConnectionBuilder()
 				.WithUrl($"{edgeAddress}internal", HttpTransportType.WebSockets)
 				.WithAutomaticReconnect()
-				.ConfigureLogging(logging => {
+				.ConfigureLogging(logging =>
+				{
 					logging.SetMinimumLevel(LogLevel.Information);
 					logging.AddConsole();
 				})
@@ -73,7 +74,7 @@ namespace achieve_ADagent.Hubs
 				return Task.CompletedTask;
 			};
 
-			connection.Reconnected += async(connectionId) =>
+			connection.Reconnected += async (connectionId) =>
 			{
 				Debug.Assert(connection.State == HubConnectionState.Connected);
 
@@ -81,6 +82,8 @@ namespace achieve_ADagent.Hubs
 			};
 
 			connection.On<EdgeResponse>("RegisterResponse", new Action<EdgeResponse>(OnRegister));
+			connection.On<ADAuthRequest>("GetUserInfo", new Action<ADAuthRequest>(OnADRequest));
+
 		}
 
 		private static void OnRegister(EdgeResponse response)
@@ -90,6 +93,20 @@ namespace achieve_ADagent.Hubs
 			{
 				Environment.Exit(1);
 			}
+		}
+
+		private async static void OnADRequest(ADAuthRequest request)
+		{
+			try
+			{
+				ADUser user = Users.getUserInfo(request.Username, request.Password);
+				request.Answer = user;
+			} catch (Exception ex)
+			{
+				request.Error = ex.Message;
+			}
+			await connection.InvokeAsync("UserInfo", new ADAuthRequest());
+
 		}
 	}
 }

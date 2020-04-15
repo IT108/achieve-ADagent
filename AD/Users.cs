@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.DirectoryServices;
-using System.DirectoryServices.AccountManagement;
-using System.Windows;
-using achieve_ADagent.Models;
-using Novell.Directory.Ldap;
+using achieve_lib.AD;
 
 namespace achieve_ADagent.AD
 {
@@ -33,7 +26,7 @@ namespace achieve_ADagent.AD
 			return ret;
 		}
 
-		public static ADUserModel getUserInfo(string userName, string password)
+		public static ADUser getUserInfo(string userName, string password)
 		{
 			DirectorySearcher ds = null;
 
@@ -66,7 +59,7 @@ namespace achieve_ADagent.AD
 
 			if (!(result is null))
 			{
-				return new ADUserModel(result);
+				return new ADUser(result);
 			}
 			throw new NotImplementedException("User not found or some parameter not exists");
 		}
@@ -74,7 +67,7 @@ namespace achieve_ADagent.AD
 		public static DirectoryEntry GetDirectoryEntry(string userName, string password)
 		{
 			DirectoryEntry de = new DirectoryEntry();
-			de.Path = $"LDAP://{Manage.DOMAIN}/{Manage.DOMAIN_PATH}";
+			de.Path = $"LDAP://{Manage.DOMAIN_SERVER_ADDRESS}/{Manage.DOMAIN_PATH}";
 			de.Username = $"{Manage.DOMAIN}\\{userName}";
 			de.Password = password;
 			return de;

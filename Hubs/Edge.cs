@@ -101,11 +101,13 @@ namespace achieve_ADagent.Hubs
 			{
 				ADUser user = Users.getUserInfo(request.Username, request.Password);
 				request.Answer = user;
+				request.IsSuccess = true;
 			} catch (Exception ex)
 			{
+				request.IsSuccess = false;
 				request.Error = ex.Message;
 			}
-			await connection.InvokeAsync("UserInfo", new ADAuthRequest());
+			await connection.InvokeAsync("UserInfo", request);
 
 		}
 	}

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace achieve_ADagent.Hubs
 {
@@ -33,7 +34,38 @@ namespace achieve_ADagent.Hubs
 			}
 		}
 
-		public static void ConfigureEdge(IConfiguration config)
+		private static async Task<bool> ConnectToSignalRServer()
+		{
+			Console.WriteLine("Trying to connect");
+			bool connected = false;
+			try
+			{
+				await connection.StartAsync();
+
+				if (connection.State == HubConnectionState.Connected)
+				{
+					connected = true;
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error: {ex.Message}");
+			}
+			return connected;
+		}
+
+		public async static Task TryConnect()
+		{
+			while (true)
+			{
+				bool connected = await ConnectToSignalRServer();
+				if (connected)
+					return;
+				Thread.Sleep(10000);
+			}
+		}
+
+		public async static void ConfigureEdge(IConfiguration config)
 		{
 			EDGE_ADDRESS = config[EDGE_ADDRESS_PROPERTY];
 
@@ -48,23 +80,17 @@ namespace achieve_ADagent.Hubs
 				.Build();
 
 			RegisterHandlers();
+			await TryConnect();
 			RegisterService();
 		}
 
-		public async static void RegisterService()
+		public async static Task RegisterService()
 		{
-			await connection.StartAsync();
 			await connection.InvokeAsync("Register", Auth.KEY, AD.Manage.DOMAIN);
 		}
 
 		private static void RegisterHandlers()
 		{
-			connection.Closed += async (error) =>
-			{
-				await Task.Delay(new Random().Next(0, 5) * 1000);
-				await connection.StartAsync();
-				await connection.InvokeAsync("Register", Auth.KEY, AD.Manage.DOMAIN);
-			};
 
 			connection.Reconnecting += error =>
 			{
@@ -81,6 +107,16 @@ namespace achieve_ADagent.Hubs
 				await connection.InvokeAsync("Register", Auth.KEY, AD.Manage.DOMAIN);
 			};
 
+			connection.Closed += error =>
+			{
+				Debug.Assert(connection.State == HubConnectionState.Disconnected);
+
+				TryConnect().Wait();
+				RegisterService().Wait();
+				return Task.CompletedTask;
+			};
+
+
 			connection.On<EdgeResponse>("RegisterResponse", new Action<EdgeResponse>(OnRegister));
 			connection.On<ADAuthRequest>("GetUserInfo", new Action<ADAuthRequest>(OnADRequest));
 
@@ -93,6 +129,12 @@ namespace achieve_ADagent.Hubs
 			{
 				Environment.Exit(1);
 			}
+		}
+
+		private async static Task OnConnClosed(Exception error)
+		{
+			await TryConnect();
+			await connection.InvokeAsync("Register", Auth.KEY, AD.Manage.DOMAIN);
 		}
 
 		private async static void OnADRequest(ADAuthRequest request)

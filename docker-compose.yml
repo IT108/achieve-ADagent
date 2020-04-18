@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
     ADhelper:
-        image: iorp/achieve-adagent
+        image: iorp/achieve-adagent:1809
         container_name: achieve-adagent
         ports: 
             - 8080:80
@@ -11,6 +11,8 @@ services:
             - DOMAIN_PATH=${AD_DOMAIN_PATH}
             - DOMAIN_NAME=${AD_DOMAIN_NAME}
             - AUTH_KEY=${AD_AUTH_KEY}
+            - SERVER_ADDRESS=${AD_SERVER_ADDRESS}
+            - EDGE_ADDRESS=${AD_EDGE_ADDRESS}
             - MASTER_KEY=${AD_MASTER_KEY}
             - ADMIN_USERNAME=${AD_ADMIN_USERNAME}
             - ADMIN_PASSWORD=${AD_ADMIN_PASSWORD}

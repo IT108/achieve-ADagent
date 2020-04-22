@@ -142,7 +142,7 @@ namespace achieve_ADagent.Hubs
 			try
 			{
 				ADUser user = Users.getUserInfo(request.Username, request.Password);
-				request.Answer = user;
+				request.Result = user;
 				request.IsSuccess = true;
 			} catch (Exception ex)
 			{

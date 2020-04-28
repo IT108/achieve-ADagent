@@ -1,0 +1,9 @@
+{
+	"AD_DOMAIN_PATH": "<string>",
+	"AD_DOMAIN_NAME": "<string>",
+	"AD_SERVER_ADDRESS": "<string>",
+	"AD_AUTH_KEY": "<string>",
+	"AD_ADMIN_USERNAME": "<string>",
+	"AD_ADMIN_PASSWORD": "<string>",
+	"AD_EDGE_ADDRESS": "<string>"
+}

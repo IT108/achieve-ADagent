@@ -6,3 +6,6 @@ obj
 achieve-ADagent.csproj.user
 .config
 Properties
+appsettings.Development.json
+
+settings.json

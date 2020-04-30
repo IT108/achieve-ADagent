@@ -19,11 +19,11 @@ namespace achieve_ADagent
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((hostingContext, config) =>
-				{
-					config.AddJsonFile("settings.json");
-				})
 				.UseWindowsService()
+							.ConfigureAppConfiguration((hostingContext, config) =>
+							{
+								config.AddJsonFile("settings.json");
+							})
 				.ConfigureServices((hostContext, services) =>
 				{
 					services.AddHostedService<Worker>();

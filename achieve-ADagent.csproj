@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
 	<PropertyGroup>
+		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>achieve_ADagent</RootNamespace>
 		<UserSecretsId>89b51ad8-fe00-498b-80b1-df8cbe0cf77d</UserSecretsId>
